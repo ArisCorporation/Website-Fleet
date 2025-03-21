@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ariscorp-website
+  namespace: ariscorp-website
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: ariscorp.de
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: ariscorp-website-service
+                port:
+                  number: 3000
+  tls:
+    - hosts:
+        - ariscorp.de
+      secretName: cloudfare-origin-cert-ariscorp
