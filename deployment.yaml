@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ariscorp-website
+  namespace: ariscorp-website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ariscorp-website
+  template:
+    metadata:
+      labels:
+        app: ariscorp-website
+    spec:
+      containers:
+        - name: website
+          image: ghcr.io/ariscorporation/website
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: ariscorp-website-configs
+            - secretRef:
+                name: ariscorp-website-secrets
